@@ -40,6 +40,8 @@
  */
 void shipovnik_generate_keys(uint8_t *sk, uint8_t *pk);
 
+int shipovnik_generate_keys_ex(uint8_t *sk, uint8_t *pk);
+
 /**
  * @brief Generates signature for given message according to secret key.
  *
@@ -53,6 +55,9 @@ void shipovnik_generate_keys(uint8_t *sk, uint8_t *pk);
  */
 void shipovnik_sign(const uint8_t *sk, const uint8_t *msg, size_t msg_len,
                     uint8_t *sig, size_t *sig_len);
+
+int shipovnik_sign_ex(const uint8_t *sk, const uint8_t *msg, size_t msg_len,
+                      uint8_t *sig, size_t *sig_len);
 
 /**
  * @brief Verifies that given signature is the signature of given message.

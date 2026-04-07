@@ -48,6 +48,15 @@ void shipovnik_generate_keys(uint8_t *sk, uint8_t *pk) {
   syndrome(H_PRIME, sk, pk);
 }
 
+int shipovnik_generate_keys_ex(uint8_t *sk, uint8_t *pk) {
+  if (sk == NULL || pk == NULL) {
+    return -1;
+  }
+
+  shipovnik_generate_keys(sk, pk);
+  return 0;
+}
+
 #define SIGMA_Y_SIZE (SIGMA_PACKED_BYTES + SHIPOVNIK_PUBLICKEYBYTES)
 
 void shipovnik_sign(const uint8_t *sk, const uint8_t *msg, size_t msg_len,
@@ -157,6 +166,20 @@ cleanup:
   free(us);
   free(sigmas);
   multiword_number_free(mwh);
+}
+
+int shipovnik_sign_ex(const uint8_t *sk, const uint8_t *msg, size_t msg_len,
+                      uint8_t *sig, size_t *sig_len) {
+  if (sk == NULL || msg == NULL || sig == NULL || sig_len == NULL) {
+    return -1;
+  }
+
+  shipovnik_sign(sk, msg, msg_len, sig, sig_len);
+  if (*sig_len > SHIPOVNIK_SIGBYTES) {
+    return -1;
+  }
+
+  return 0;
 }
 
 int shipovnik_verify(const uint8_t *pk, const uint8_t *sig, const uint8_t *msg,
